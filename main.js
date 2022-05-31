@@ -1,4 +1,4 @@
-import { utils } from "ethers";
+import { BigNumber, utils } from "ethers";
 import { MerkleTree } from "merkletreejs";
 
 import keccak256 from "keccak256";
@@ -10,11 +10,11 @@ let elements = []
  
 for (const [k, v] of Object.entries(Airdrop)) {
     elements.push(
-        utils.solidityKeccak256(["address", "uint256"], [k, v])
+        utils.solidityKeccak256(["address", "uint256"], [k, BigNumber.from(v).mul(10**12)])
     )
   }
  
-const merkleTree = new MerkleTree(elements, keccak256, { sort: true });
+const merkleTree = new MerkleTree(elements, keccak256);
  
 const root = merkleTree.getHexRoot();
 
